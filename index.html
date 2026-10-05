@@ -976,6 +976,7 @@ function init(){
   if(!loadData())return;
   renderList();renderStats();drawScale();
   resize();fitAll();requestRender();
+  openSheet("everest"); /* ficha fija con el Everest por defecto */
   $("loader").classList.add("done");
 }
 document.addEventListener("DOMContentLoaded",function(){
