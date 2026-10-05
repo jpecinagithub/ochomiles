@@ -298,7 +298,7 @@ html[data-theme="dark"] .btn.primary{color:#10161b}
 
   <div id="attr" class="panel">
     <div id="attrSrc"></div>
-    <div class="me"><span data-i18n="author_pre">Un proyecto de</span> <strong data-author>el autor</strong></div>
+    <div class="me"><span data-i18n="author_pre">Un proyecto de</span> <strong>Jon Peciña</strong></div>
   </div>
 
   <button id="fitBtn" class="fab">
@@ -897,7 +897,6 @@ function applyI18n(){
   document.documentElement.lang=lang;
   document.querySelectorAll("[data-i18n]").forEach(function(el){el.textContent=t(el.getAttribute("data-i18n"));});
   document.querySelectorAll("[data-i18n-ph]").forEach(function(el){el.placeholder=t(el.getAttribute("data-i18n-ph"));});
-  document.querySelectorAll("[data-author]").forEach(function(el){el.textContent=(lang==="es"?"el autor":"the author");});
   $("attrSrc").textContent=(OD?OD.meta.sources.join(" · "):"")+" · "+t("photos_by");
   renderChips();renderList();renderStats();
   if(openPeakId)openSheet(openPeakId);
