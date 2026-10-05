@@ -261,8 +261,7 @@ body{font-family:var(--f-body);color:var(--ink);background:var(--bg);-webkit-fon
   <div id="scalebar" class="panel"><div class="bar" id="sbBar"></div><div class="t" id="sbTxt">–</div></div>
 
   <div id="attr" class="panel">
-    <div id="attrSrc"></div>
-    <div class="me"><span>Un proyecto de</span> <strong>Jon Peciña</strong></div>
+    <div class="me"><strong>Jon Peciña</strong></div>
   </div>
 
   <button id="fitBtn" class="fab">
@@ -1006,7 +1005,6 @@ function onRoutesData(){ /* datos-rutas.js (defer) ya se ha ejecutado */
 }
 function init(){
   if(!loadData())return;
-  $("attrSrc").textContent=OD.meta.sources.join(" · ")+" · Fotos: Wikimedia Commons";
   renderList();renderStats();drawScale();
   resize();fitAll();requestRender();
   $("loader").classList.add("done");
