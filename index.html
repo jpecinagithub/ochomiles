@@ -978,13 +978,6 @@ function open3D(p){
     scene3d.add(sun);
     var mesh=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({vertexColors:true,roughness:0.95,metalness:0}));
     scene3d.add(mesh);
-    /* marcador de la cima */
-    var fi=(p.lon-pc.lon0)/(pc.lon1-pc.lon0),fj=(pc.lat1-p.lat)/(pc.lat1-pc.lat0);
-    var mx=(fi-0.5)*kmLon,mz=(fj-0.5)*kmLat;
-    var mzElev=((p.a-zmin)/1000)*ex;
-    var mark=new THREE.Mesh(new THREE.SphereGeometry(ext*0.012,16,16),
-      new THREE.MeshBasicMaterial({color:isDark()?0xff6b5e:0xb3261e}));
-    mark.position.set(mx,mzElev+ext*0.01,mz);scene3d.add(mark);
     /* vías (sin campamentos en 3D: ya están en el plano) */
     var rt=getRoute(p.id),dark3=isDark(),acc3=dark3?0xff6b5e:0xb3261e;
     function demAt(lon,lat){
