@@ -10,6 +10,7 @@ Vías y campamentos APROXIMADOS (ver nota en la ficha: "Las vías son orientativ
 import json, os, sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
 from enc import enc_lines
+from makalu_routes import MAKALU, WPS_NORMAL
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 
@@ -52,21 +53,7 @@ ROUTES = {
     E(0, "Su nombre significa «Pico Sur» en tibetano y comparte vía con el Everest hasta el campo 3.",
           "Its name means “South Peak” in Tibetan; it shares the Everest route up to Camp 3."),
   ]},
-"makalu": {
-  "via": "Arista noroeste",
-  "wps": [
-    ("Campo base", "Base Camp", 27.8717, 87.1150, 4870),
-    ("Campo 1", "Camp 1", 27.8800, 87.1000, 6100),
-    ("Campo 2", "Camp 2", 27.8850, 87.0950, 6600),
-    ("Campo 3", "Camp 3", 27.8880, 87.0920, 7400),
-    ("Cima", "Summit", 27.8897, 87.0889, 8463),
-  ],
-  "events": [
-    E(2009, "Primera ascensión invernal: Simone Moro y Denis Urubko.",
-            "First winter ascent: Simone Moro & Denis Urubko."),
-    E(0, "Su pirámide de cuatro aristas lo hace inconfundible desde lejos.",
-          "Its four-ridged pyramid is unmistakable from afar."),
-  ]},
+"makalu": None,  # se genera desde tools/makalu_routes.py (vías del artículo Animal de Ruta)
 "chooyu": {
   "via": "Cara noroeste",
   "wps": [
@@ -248,9 +235,36 @@ def build_line(wps, subdiv=6):
     pts.append((wps[-1][3], wps[-1][2]))
     return pts
 
+def build_makalu():
+    """Entrada enriquecida del Makalu: vía normal + 6 rutas del artículo."""
+    routes = []
+    for r in MAKALU["routes"]:
+        routes.append({
+            "id": r["id"],
+            "name": r["name"],
+            "y": r["y"],
+            "color": r["color"],
+            "line": enc_lines([build_line([(None, None, la, lo, 0) for la, lo in r["wps"]], subdiv=4)]),
+            "label": r["label"],
+            "desc": r["desc"],
+            "marks": r["marks"],
+        })
+    evs = ([e for e in MAKALU["events"] if e["y"] > 0] +
+           [{"t": e["t"]} for e in MAKALU["events"] if e["y"] == 0])
+    return {
+        "via": MAKALU["via"],
+        "line": enc_lines([build_line([(None, None, la, lo, 0) for la, lo in WPS_NORMAL], subdiv=4)]),
+        "camps": MAKALU["camps"],
+        "events": evs,
+        "routes": routes,
+    }
+
 def main():
     out = {}
     for pid, r in ROUTES.items():
+        if pid == "makalu":
+            out[pid] = build_makalu()
+            continue
         wps = r["wps"]
         out[pid] = {
             "via": r["via"],
