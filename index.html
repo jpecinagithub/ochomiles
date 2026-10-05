@@ -109,10 +109,6 @@ body{font-family:var(--f-body);color:var(--ink);background:var(--bg);-webkit-fon
 #sheet .mono span{font-family:var(--f-display);font-weight:700;font-size:96px;color:var(--accent);opacity:.85}
 #sheet .phcap{font-size:11px;color:var(--muted);padding:6px 18px 0}
 #sheet .phcap a{color:var(--water);text-decoration:none}
-#sheet .x{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);
-  background:var(--panel);color:var(--ink);cursor:pointer;display:none;align-items:center;justify-content:center;z-index:2}
-#sheet .x:hover{color:var(--accent);border-color:var(--accent)}
-#sheet .x svg{width:15px;height:15px}
 #sheet .body{overflow-y:auto;padding:14px 20px 20px;scrollbar-width:thin}
 #sheet .aka{font-family:var(--f-serif);font-style:italic;font-size:16px;color:var(--muted);margin-top:2px}
 #sheet h2{font-family:var(--f-display);font-weight:700;font-size:34px;line-height:1.05;padding-right:36px}
@@ -187,7 +183,6 @@ body{font-family:var(--f-body);color:var(--ink);background:var(--bg);-webkit-fon
   #sheet{left:8px;right:8px;top:auto;bottom:8px;width:auto;max-width:none;max-height:72vh;
     transform:translateY(calc(100% + 20px))}
   #sheet.open{transform:none}
-  #sheet .x{display:flex}
 }
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
@@ -767,8 +762,7 @@ function openSheet(id){
   var i=peaks.indexOf(p),nr=nearby(p),patch=getPatch(id),rt=getRoute(id);
   var evs=rt?(rt.events||[]):[];
   var fa=p.fa?('<b>'+p.fa.y+'</b> — '+esc(p.fa.by)):"–";
-  var h='<div class="shead">'+photoHtml(p)+
-    '<button class="x" id="shX" aria-label="'+esc("Cerrar")+'"><svg viewBox="0 0 16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"><path d="M3 3l10 10M13 3L3 13"/></svg></button></div>'+
+  var h='<div class="shead">'+photoHtml(p)+'</div>'+
     '<div class="body">'+
     '<div class="rankline">'+esc("n.º")+' '+(i+1)+' · '+esc(zoneName(p.zone))+'</div>'+
     '<h2>'+esc(p.n)+'</h2>'+
@@ -803,7 +797,6 @@ function openSheet(id){
     '</div>';
   var sh=$("sheet");sh.innerHTML=h;sh.classList.add("open");
   if(window.innerWidth<=900)$("side").classList.remove("open");
-  $("shX").onclick=closeSheet;
   if(p.bc)$("shMap").onclick=function(){view.clon=p.bc.lon;view.clat=p.bc.lat;
     view.scale=Math.max(view.scale,Math.min(W,H)/0.3);clampView();requestRender();};
   $("shPrev").onclick=function(){openSheet(peaks[(i-1+peaks.length)%peaks.length].id);};
@@ -814,8 +807,6 @@ function openSheet(id){
   });
   renderList();requestRender();
 }
-function closeSheet(){openPeakId=null;$("sheet").classList.remove("open");renderList();requestRender();}
-
 /* ---------------- 3D viewer ---------------- */
 var renderer3d=null,scene3d=null,cam3d=null,raf3d=null;
 function close3D(){
