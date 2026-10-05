@@ -196,6 +196,7 @@ html[data-theme="dark"] .btn.primary{color:#10161b}
   background:var(--panel);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center}
 #m3d .x svg{width:15px;height:15px}
 #m3d .hint{position:absolute;left:16px;bottom:12px;font-size:11.5px;color:var(--muted);pointer-events:none}
+#m3d .sat{position:absolute;right:16px;bottom:12px;font-size:10.5px;color:var(--muted);pointer-events:none}
 /* ---------- loader / error ---------- */
 #loader{position:absolute;inset:0;z-index:100;display:flex;flex-direction:column;gap:14px;align-items:center;
   justify-content:center;background:var(--bg);transition:opacity .4s}
@@ -316,6 +317,7 @@ html[data-theme="dark"] .btn.primary{color:#10161b}
     <div class="t" id="m3dTitle"></div>
     <button class="x" id="m3dX" aria-label="Cerrar"><svg viewBox="0 0 16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
     <div class="hint" data-i18n="m3d_hint">Arrastra para orbitar · rueda para acercar</div>
+    <div class="sat" id="m3dSat" data-i18n="m3d_sat" style="display:none">Imágenes: Esri, Maxar, Earthstar Geographics</div>
     <div id="m3dView" style="width:100%;height:100%"></div>
   </div></div>
 
@@ -381,7 +383,7 @@ s_route:"Vía normal",s_bc:"Campo base",s_near:"Cimas cercanas",s_viewmap:"Ver e
 s_prev:"Anterior",s_next:"Siguiente",s_close:"Cerrar",s_routes_note:"Las vías son orientativas.",
 s_rlist:"Vías de la montaña",
 s_events:"Efemérides",leg_route:"Vía normal",
-m3d_hint:"Arrastra para orbitar · rueda para acercar",rank_of:"n.º",unit_m:"m",unit_km:"km",ago_in:"en"},
+m3d_hint:"Arrastra para orbitar · rueda para acercar",m3d_sat:"Imágenes: Esri, Maxar, Earthstar Geographics",rank_of:"n.º",unit_m:"m",unit_km:"km",ago_in:"en"},
 en:{eyebrow:"Himalaya · Karakoram",title:"The 14 eight-thousanders",subtitle:"Peaks rising above 8000 metres",
 search_ph:"Search peak…",stat_peaks:"Peaks",stat_top:"Highest",stat_countries:"Countries",
 layers:"Layers",l_contours:"Contour lines",l_water:"Rivers & lakes",l_towns:"Towns & base camps",
@@ -395,7 +397,7 @@ s_route:"Normal route",s_bc:"Base camp",s_near:"Nearby peaks",s_viewmap:"Show on
 s_prev:"Previous",s_next:"Next",s_close:"Close",s_routes_note:"Routes are indicative only.",
 s_rlist:"Mountain routes",
 s_events:"Milestones",leg_route:"Normal route",
-m3d_hint:"Drag to orbit · scroll to zoom",rank_of:"no.",unit_m:"m",unit_km:"km",ago_in:"in"}};
+m3d_hint:"Drag to orbit · scroll to zoom",m3d_sat:"Imagery: Esri, Maxar, Earthstar Geographics",rank_of:"no.",unit_m:"m",unit_km:"km",ago_in:"in"}};
 var lang=(function(){try{var l=localStorage.getItem("ocho_lang");if(l==="es"||l==="en")return l;}catch(e){}
   return (navigator.language||"es").toLowerCase().indexOf("en")===0?"en":"es";})();
 function t(k){return (STR[lang]&&STR[lang][k])||STR.es[k]||k;}
@@ -976,8 +978,19 @@ function open3D(p){
     var sun=new THREE.DirectionalLight(0xfff2dd,1.5);
     var azr=sunAz*Math.PI/180;sun.position.set(Math.sin(azr),1.1,Math.cos(azr)).multiplyScalar(ext*2);
     scene3d.add(sun);
-    var mesh=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({vertexColors:true,roughness:0.95,metalness:0}));
+    var mat3d=new THREE.MeshStandardMaterial({vertexColors:true,roughness:0.95,metalness:0});
+    var mesh=new THREE.Mesh(geo,mat3d);
     scene3d.add(mesh);
+    /* textura satelital si existe para este pico (tex/<id>.jpg);
+       si no, se queda el sombreado por altura */
+    $("m3dSat").style.display="none";
+    new THREE.TextureLoader().load("tex/"+p.id+".jpg",
+      function(tx){
+        tx.colorSpace=THREE.SRGBColorSpace;
+        tx.anisotropy=renderer3d.capabilities.getMaxAnisotropy();
+        mat3d.map=tx;mat3d.vertexColors=false;mat3d.needsUpdate=true;
+        $("m3dSat").style.display="block";
+      },undefined,function(){});
     /* vías (sin campamentos en 3D: ya están en el plano) */
     var rt=getRoute(p.id),dark3=isDark(),acc3=dark3?0xff6b5e:0xb3261e;
     function demAt(lon,lat){
