@@ -160,6 +160,9 @@ input[type=range].sun::-webkit-slider-thumb{-webkit-appearance:none;width:16px;h
 .fact small{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:2px}
 .fact b{font-size:14.5px;font-weight:600}
 .route{font-size:14px;line-height:1.55;color:var(--ink);margin:4px 0 2px}
+.evs{list-style:none;margin:4px 0 2px;padding:0;display:flex;flex-direction:column;gap:7px}
+.evs li{font-size:13.5px;line-height:1.5;color:var(--ink);border-left:3px solid var(--accent);padding-left:10px;opacity:.92}
+.evs li b{color:var(--accent);font-variant-numeric:tabular-nums}
 .sect{font-family:var(--f-display);font-weight:600;font-size:14px;letter-spacing:.14em;text-transform:uppercase;
   margin:16px 0 8px;color:var(--muted)}
 .bcrow{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--water-soft);
@@ -291,6 +294,7 @@ html[data-theme="dark"] .btn.primary{color:#10161b}
       <span><i><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="3.4" fill="var(--ink)"/></svg></i><em data-i18n="leg_town">Pueblo</em></span>
       <span><i><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 11L8 1l7 10z M8 1v10" fill="none" stroke="var(--water)" stroke-width="1.6"/></svg></i><em data-i18n="leg_bc">Campo base</em></span>
       <span><i><svg width="18" height="10" viewBox="0 0 18 10"><path d="M1 5h16" stroke="var(--muted)" stroke-width="1.6" stroke-dasharray="3 2.4"/></svg></i><em data-i18n="leg_border">Frontera</em></span>
+      <span><i><svg width="18" height="10" viewBox="0 0 18 10"><path d="M1 5h16" stroke="var(--accent)" stroke-width="2.2" stroke-dasharray="3.5 2.5"/></svg></i><em data-i18n="leg_route">Vía normal</em></span>
     </div>
   </div>
 
@@ -321,6 +325,7 @@ html[data-theme="dark"] .btn.primary{color:#10161b}
 
 <script src="datos-base.js"></script>
 <script defer src="datos-picos.js"></script>
+<script defer src="datos-rutas.js"></script>
 <script>
 "use strict";
 /* ============================================================
@@ -374,6 +379,7 @@ fatal:"No se han podido cargar los datos del mapa.",noresults:"Sin resultados",
 s_alt:"Altitud",s_prom:"Prominencia",s_range:"Cordillera",s_country:"País",s_fa:"Primera ascensión",
 s_route:"Vía normal",s_bc:"Campo base",s_near:"Cimas cercanas",s_viewmap:"Ver en mapa",s_3d:"Ver en 3D",
 s_prev:"Anterior",s_next:"Siguiente",s_close:"Cerrar",s_routes_note:"Las vías son orientativas.",
+s_events:"Efemérides",leg_route:"Vía normal",
 m3d_hint:"Arrastra para orbitar · rueda para acercar",rank_of:"n.º",unit_m:"m",unit_km:"km",ago_in:"en"},
 en:{eyebrow:"Himalaya · Karakoram",title:"The 14 eight-thousanders",subtitle:"Peaks rising above 8000 metres",
 search_ph:"Search peak…",stat_peaks:"Peaks",stat_top:"Highest",stat_countries:"Countries",chip_all:"All",
@@ -386,6 +392,7 @@ fatal:"Could not load the map data.",noresults:"No results",
 s_alt:"Elevation",s_prom:"Prominence",s_range:"Range",s_country:"Country",s_fa:"First ascent",
 s_route:"Normal route",s_bc:"Base camp",s_near:"Nearby peaks",s_viewmap:"Show on map",s_3d:"View in 3D",
 s_prev:"Previous",s_next:"Next",s_close:"Close",s_routes_note:"Routes are indicative only.",
+s_events:"Milestones",leg_route:"Normal route",
 m3d_hint:"Drag to orbit · scroll to zoom",rank_of:"no.",unit_m:"m",unit_km:"km",ago_in:"in"}};
 var lang=(function(){try{var l=localStorage.getItem("ocho_lang");if(l==="es"||l==="en")return l;}catch(e){}
   return (navigator.language||"es").toLowerCase().indexOf("en")===0?"en":"es";})();
@@ -405,6 +412,16 @@ var $=function(id){return document.getElementById(id);};
 
 function hasPatch(){return (typeof window.OCHO_PATCH!=="undefined")&&window.OCHO_PATCH;}
 function getPatch(id){var p=hasPatch()?window.OCHO_PATCH:null;return p?p[id]||null:null;}
+function hasRoutes(){return (typeof window.OCHO_ROUTES!=="undefined")&&window.OCHO_ROUTES;}
+function getRoute(id){var r=hasRoutes()?window.OCHO_ROUTES:null;return r?r[id]||null:null;}
+var routeCache={};
+function routeLines(id){
+  if(routeCache[id])return routeCache[id];
+  var rt=getRoute(id),lines=null;
+  if(rt&&rt.line){try{lines=decLines(rt.line);}catch(e){lines=null;}}
+  routeCache[id]=lines;
+  return lines;
+}
 
 /* ---------------- data load ---------------- */
 function loadData(){
@@ -607,6 +624,30 @@ function draw(){
       haloC(L(p.n),s[0],s[1]-r0-7);
     }
   });
+  /* selected peak: normal route + camps */
+  var rt=openPeakId?getRoute(openPeakId):null;
+  if(rt){
+    var rl=routeLines(openPeakId);
+    if(rl&&rl.length){
+      ctx.strokeStyle=acc;ctx.lineWidth=2.6;ctx.lineCap="round";ctx.setLineDash([8,5]);
+      ctx.beginPath();
+      rl.forEach(function(line){
+        var started=false;
+        for(var i=0;i<line.length;i++){
+          var s=proj(line[i][0],line[i][1]);
+          if(s[0]<-80||s[0]>W+80||s[1]<-80||s[1]>H+80){started=false;continue;}
+          if(!started){ctx.moveTo(s[0],s[1]);started=true;}else ctx.lineTo(s[0],s[1]);
+        }
+      });
+      ctx.stroke();ctx.setLineDash([]);
+    }
+    (rt.camps||[]).forEach(function(cp){
+      var s=proj(cp.lon,cp.lat);if(s[0]<-60||s[0]>W+60||s[1]<-30||s[1]>H+30)return;
+      ctx.fillStyle=dark?"#10161b":"#fafbf8";ctx.strokeStyle=acc;ctx.lineWidth=1.8;
+      ctx.beginPath();ctx.arc(s[0],s[1],5,0,7);ctx.fill();ctx.stroke();
+      if(view.scale>900){ctx.font="600 11px Barlow,sans-serif";halo(L(cp.n),s[0]+9,s[1]+4);}
+    });
+  }
   drawScale();
 }
 function drawLines(groups){
@@ -774,7 +815,8 @@ function photoHtml(p){
 function openSheet(id){
   var p=peaks.filter(function(x){return x.id===id;})[0];if(!p)return;
   openPeakId=id;
-  var i=peaks.indexOf(p),nr=nearby(p),patch=getPatch(id);
+  var i=peaks.indexOf(p),nr=nearby(p),patch=getPatch(id),rt=getRoute(id);
+  var evs=rt?(rt.events||[]):[];
   var fa=p.fa?('<b>'+p.fa.y+'</b> — '+esc(L(p.fa.by))):"–";
   var h='<div class="shead">'+photoHtml(p)+
     '<button class="x" id="shX" aria-label="'+esc(t("s_close"))+'"><svg viewBox="0 0 16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"><path d="M3 3l10 10M13 3L3 13"/></svg></button></div>'+
@@ -790,6 +832,9 @@ function openSheet(id){
     '<div class="fact wide"><small>'+esc(t("s_fa"))+'</small><b>'+fa+'</b></div>'+
     '</div>'+
     '<div class="sect">'+esc(t("s_route"))+'</div><p class="route">'+esc(L(p.route))+'</p>'+
+    (evs.length?'<div class="sect">'+esc(t("s_events"))+'</div><ul class="evs">'+
+      evs.map(function(e){return '<li>'+(e.y?'<b>'+e.y+'</b> · ':"")+esc(L(e.t))+'</li>';}).join("")+
+      '</ul>':"")+
     (p.bc?'<div class="sect">'+esc(t("s_bc"))+'</div><div class="bcrow"><span>'+esc(L(p.bc.n))+'</span>'+
       '<button class="btn" id="shMap"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 14s5-4.6 5-8.2A5 5 0 003 5.8C3 9.4 8 14 8 14z"/><circle cx="8" cy="6" r="1.8"/></svg>'+esc(t("s_viewmap"))+'</button></div>':"")+
     (nr.length?'<div class="sect">'+esc(t("s_near"))+'</div><div class="near">'+
@@ -880,6 +925,47 @@ function open3D(p){
     var pole=new THREE.Mesh(new THREE.CylinderGeometry(ext*0.002,ext*0.002,ext*0.09),
       new THREE.MeshBasicMaterial({color:0xffffff}));
     pole.position.set(mx,mzElev+ext*0.05,mz);scene3d.add(pole);
+    /* vía normal y campamentos */
+    var rt=getRoute(p.id),dark3=isDark(),acc3=dark3?0xff6b5e:0xb3261e;
+    function demAt(lon,lat){
+      var fx=(lon-pc.lon0)/(pc.lon1-pc.lon0)*(w-1),fy=(pc.lat1-lat)/(pc.lat1-pc.lat0)*(h-1);
+      fx=Math.max(0,Math.min(w-1.001,fx));fy=Math.max(0,Math.min(h-1.001,fy));
+      var x0=Math.floor(fx),y0=Math.floor(fy),ax=fx-x0,ay=fy-y0,i=y0*w+x0;
+      return d[i]*(1-ax)*(1-ay)+d[i+1]*ax*(1-ay)+d[i+w]*(1-ax)*ay+d[i+w+1]*ax*ay;
+    }
+    function scXYZ(lon,lat,off){
+      var fi=(lon-pc.lon0)/(pc.lon1-pc.lon0),fj=(pc.lat1-lat)/(pc.lat1-pc.lat0);
+      return [(fi-0.5)*kmLon,((demAt(lon,lat)-zmin)/1000)*ex+(off||0),(fj-0.5)*kmLat];
+    }
+    function textSprite(txt,s){
+      var c=document.createElement("canvas");c.width=256;c.height=64;
+      var g=c.getContext("2d");
+      g.font="600 30px Barlow, Arial, sans-serif";g.textAlign="center";g.textBaseline="middle";
+      g.lineWidth=7;g.strokeStyle=dark3?"rgba(10,14,17,.9)":"rgba(250,251,248,.92)";
+      var label=txt.length>22?txt.slice(0,21)+"…":txt;
+      g.strokeText(label,128,32);g.fillStyle=dark3?"#e9eef1":"#17222a";g.fillText(label,128,32);
+      var sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false,transparent:true}));
+      sp.scale.set(s*4,s,1);sp.renderOrder=5;return sp;
+    }
+    if(rt&&rt.line){
+      var rpts=[];
+      (routeLines(p.id)||[]).forEach(function(line){
+        line.forEach(function(pt){var s=scXYZ(pt[0],pt[1],ext*0.012);rpts.push(s[0],s[1],s[2]);});
+      });
+      if(rpts.length>3){
+        var rg=new THREE.BufferGeometry();
+        rg.setAttribute("position",new THREE.Float32BufferAttribute(rpts,3));
+        scene3d.add(new THREE.Line(rg,new THREE.LineBasicMaterial({color:acc3})));
+      }
+      (rt.camps||[]).forEach(function(cp){
+        var s=scXYZ(cp.lon,cp.lat,ext*0.012);
+        var mk=new THREE.Mesh(new THREE.SphereGeometry(ext*0.009,12,12),
+          new THREE.MeshBasicMaterial({color:dark3?0xffffff:0x17222a}));
+        mk.position.set(s[0],s[1],s[2]);scene3d.add(mk);
+        var lb=textSprite(L(cp.n),ext*0.028);
+        lb.position.set(s[0],s[1]+ext*0.035,s[2]);scene3d.add(lb);
+      });
+    }
     function loop(){raf3d=requestAnimationFrame(loop);ctl.update();renderer3d.render(scene3d,cam3d);}
     loop();
     window.addEventListener("resize",function onR(){
@@ -940,6 +1026,11 @@ function onPatchData(){ /* datos-picos.js (defer) ya se ha ejecutado */
   if(openPeakId)openSheet(openPeakId); /* reevaluar botón 3D */
   requestRender();
 }
+function onRoutesData(){ /* datos-rutas.js (defer) ya se ha ejecutado */
+  routeCache={};
+  if(openPeakId)openSheet(openPeakId); /* mostrar vía y efemérides */
+  requestRender();
+}
 function init(){
   if(!loadData())return;
   try{var tm=localStorage.getItem("ocho_theme");if(tm==="light"||tm==="dark"||tm==="auto")themeMode=tm;}catch(e){}
@@ -950,7 +1041,8 @@ function init(){
 }
 document.addEventListener("DOMContentLoaded",function(){
   if(hasPatch())onPatchData();
-  setTimeout(function(){if(hasPatch())onPatchData();},1500); /* red de seguridad */
+  onRoutesData();
+  setTimeout(function(){if(hasPatch())onPatchData();onRoutesData();},1500); /* red de seguridad */
 });
 init();
 </script>

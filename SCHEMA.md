@@ -105,3 +105,16 @@ resolución objetivo ~70–150 m/píxel.
 - Los picos se proyectan con la fórmula de `grid` (proyección equirectangular).
 - `datos-picos.js` puede no existir al inicio: la app debe funcionar solo con
   `datos-base.js` y mejorar el zoom / activar el visor 3D cuando llegue el otro.
+
+## `window.OCHO_ROUTES` (datos-rutas.js, opcional)
+
+```js
+window.OCHO_ROUTES = {
+  "everest": {
+    "line": "<enc_lines: una polilínea del campo base a la cima>",
+    "camps": [ {"n":{"es":"Campo 1","en":"Camp 1"},"lat":..,"lon":..,"a":6065}, ... ],
+    "events": [ {"y":1996, "t":{"es":"…","en":"…"}}, {"t":{"es":"…","en":"…"}}, ... ]
+  }, ...
+}
+```
+Vías y campamentos **aproximados** (la ficha lo advierte). `y` es opcional.
