@@ -967,19 +967,41 @@ function open3D(p){
     renderer3d=new THREE.WebGLRenderer({antialias:true});
     renderer3d.setPixelRatio(Math.min(devicePixelRatio||1,2));
     renderer3d.setSize(W3,H3);
+    renderer3d.shadowMap.enabled=true;
+    renderer3d.shadowMap.type=THREE.PCFSoftShadowMap;
     wrap.appendChild(renderer3d.domElement);
     scene3d=new THREE.Scene();
-    scene3d.background=new THREE.Color(isDark()?0x0b0f13:0xe9ede7);
+    /* cielo con degradado en vez de fondo plano */
+    (function(){
+      var cv=document.createElement("canvas");cv.width=4;cv.height=256;
+      var g=cv.getContext("2d"),gr=g.createLinearGradient(0,0,0,256);
+      if(isDark()){gr.addColorStop(0,"#04070c");gr.addColorStop(0.55,"#0a1220");gr.addColorStop(1,"#0d141c");}
+      else{gr.addColorStop(0,"#6ea8dd");gr.addColorStop(0.55,"#bcd4e8");gr.addColorStop(1,"#e9ede7");}
+      g.fillStyle=gr;g.fillRect(0,0,4,256);
+      var bg=new THREE.CanvasTexture(cv);bg.colorSpace=THREE.SRGBColorSpace;
+      scene3d.background=bg;
+    })();
+    /* niebla sutil para dar profundidad */
+    scene3d.fog=new THREE.Fog(isDark()?0x0d141c:0xe9ede7,ext*1.4,ext*4);
     cam3d=new THREE.PerspectiveCamera(48,W3/H3,0.01,ext*8);
     cam3d.position.set(ext*0.42,(zmax-zmin)/1000*ex+ext*0.42,ext*0.75);
     var ctl=new OrbitControls(cam3d,renderer3d.domElement);
     ctl.target.set(0,(zmax-zmin)/1000*ex*0.4,0);ctl.enableDamping=true;ctl.dampingFactor=0.08;
-    scene3d.add(new THREE.AmbientLight(0xffffff,0.55));
+    scene3d.add(new THREE.AmbientLight(0xffffff,0.62));
     var sun=new THREE.DirectionalLight(0xfff2dd,1.5);
     var azr=sunAz*Math.PI/180;sun.position.set(Math.sin(azr),1.1,Math.cos(azr)).multiplyScalar(ext*2);
+    /* sombras reales sobre el relieve */
+    sun.castShadow=true;
+    sun.shadow.mapSize.set(2048,2048);
+    sun.shadow.camera.left=-ext;sun.shadow.camera.right=ext;
+    sun.shadow.camera.top=ext;sun.shadow.camera.bottom=-ext;
+    sun.shadow.camera.near=ext*0.5;sun.shadow.camera.far=ext*5;
+    sun.shadow.camera.updateProjectionMatrix();
+    sun.shadow.bias=-0.0004;
     scene3d.add(sun);
     var mat3d=new THREE.MeshStandardMaterial({vertexColors:true,roughness:0.95,metalness:0});
     var mesh=new THREE.Mesh(geo,mat3d);
+    mesh.castShadow=true;mesh.receiveShadow=true;
     scene3d.add(mesh);
     /* textura satelital si existe para este pico (tex/<id>.jpg);
        si no, se queda el sombreado por altura */
