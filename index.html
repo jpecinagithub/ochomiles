@@ -70,10 +70,9 @@ body{font-family:var(--f-body);color:var(--ink);background:var(--bg);-webkit-fon
 .empty{padding:26px 20px;color:var(--muted);font-style:italic;text-align:center}
 /* ---------- layers section inside the left panel ---------- */
 .sideLayers{border-top:1px solid var(--line);margin-top:14px;padding-top:12px}
-.capasHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.capasHead .eyebrow{padding:0;margin:0}
-.capasHead .btn{width:auto;margin:0}
-.capasRows{margin-left:16px}
+.sideLayers .eyebrow{margin-bottom:4px}
+.capasRows{margin-left:26px}
+.capasRows .btn{width:auto;margin-top:6px}
 .lrow{display:flex;align-items:center;gap:10px;padding:7px 2px;cursor:pointer;font-size:13.5px;font-weight:500;
   user-select:none}
 .lrow input{appearance:none;width:17px;height:17px;border:1.5px solid var(--muted);border-radius:5px;cursor:pointer;
@@ -214,19 +213,17 @@ body{font-family:var(--f-body);color:var(--ink);background:var(--bg);-webkit-fon
       <div class="stat"><b id="stCtry">–</b><span>Países</span></div>
     </div>
     <div class="sideLayers">
-      <div class="capasHead">
-        <div class="eyebrow">Capas</div>
+      <div class="eyebrow">Capas</div>
+      <div class="capasRows">
+        <label class="lrow"><input type="checkbox" id="lContours" checked><span>Curvas de nivel</span></label>
+        <label class="lrow"><input type="checkbox" id="lWater" checked><span>Ríos y lagos</span></label>
+        <label class="lrow"><input type="checkbox" id="lTowns" checked><span>Pueblos y campos base</span></label>
+        <label class="lrow"><input type="checkbox" id="lBorders" checked><span>Fronteras</span></label>
+        <label class="lrow"><input type="checkbox" id="lLabels" checked><span>Nombres de las cimas</span></label>
         <button class="btn" id="fitBtnSide">
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg>
           <span>Encuadrar</span>
         </button>
-      </div>
-      <div class="capasRows">
-      <label class="lrow"><input type="checkbox" id="lContours" checked><span>Curvas de nivel</span></label>
-      <label class="lrow"><input type="checkbox" id="lWater" checked><span>Ríos y lagos</span></label>
-      <label class="lrow"><input type="checkbox" id="lTowns" checked><span>Pueblos y campos base</span></label>
-      <label class="lrow"><input type="checkbox" id="lBorders" checked><span>Fronteras</span></label>
-      <label class="lrow"><input type="checkbox" id="lLabels" checked><span>Nombres de las cimas</span></label>
       </div>
     </div>
     <div class="search">
