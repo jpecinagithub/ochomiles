@@ -70,8 +70,10 @@ body{font-family:var(--f-body);color:var(--ink);background:var(--bg);-webkit-fon
 .empty{padding:26px 20px;color:var(--muted);font-style:italic;text-align:center}
 /* ---------- layers section inside the left panel ---------- */
 .sideLayers{border-top:1px solid var(--line);margin-top:14px;padding-top:12px}
-.sideLayers .eyebrow{margin-bottom:4px}
-.sideLayers .btn{width:100%;justify-content:center;margin-top:10px}
+.capasHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.capasHead .eyebrow{padding:0;margin:0}
+.capasHead .btn{width:auto;margin:0}
+.capasRows{margin-left:16px}
 .lrow{display:flex;align-items:center;gap:10px;padding:7px 2px;cursor:pointer;font-size:13.5px;font-weight:500;
   user-select:none}
 .lrow input{appearance:none;width:17px;height:17px;border:1.5px solid var(--muted);border-radius:5px;cursor:pointer;
@@ -93,7 +95,6 @@ body{font-family:var(--f-body);color:var(--ink);background:var(--bg);-webkit-fon
   border-radius:999px;padding:10px 16px;font:600 13.5px var(--f-body);cursor:pointer;box-shadow:var(--shadow)}
 .fab:hover{border-color:var(--accent);color:var(--accent)}
 .fab svg{width:16px;height:16px}
-#fitBtn{right:14px;bottom:86px}
 #menuBtn{left:14px;top:14px;display:none;z-index:30}
 #sideClose{display:none;position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:9px;
   border:1px solid var(--line);background:var(--panel-solid);color:var(--ink);cursor:pointer;
@@ -184,7 +185,6 @@ body{font-family:var(--f-body);color:var(--ink);background:var(--bg);-webkit-fon
   body:has(#side.open) #menuBtn{opacity:0;pointer-events:none}
   #attr{display:none}
   #scalebar{bottom:12px;left:12px;transform:none}
-  #fitBtn{bottom:64px}
   #sheet{left:8px;right:8px;top:auto;bottom:8px;width:auto;max-width:none;max-height:72vh;
     transform:translateY(calc(100% + 20px))}
   #sheet.open{transform:none}
@@ -214,16 +214,20 @@ body{font-family:var(--f-body);color:var(--ink);background:var(--bg);-webkit-fon
       <div class="stat"><b id="stCtry">–</b><span>Países</span></div>
     </div>
     <div class="sideLayers">
-      <div class="eyebrow">Capas</div>
+      <div class="capasHead">
+        <div class="eyebrow">Capas</div>
+        <button class="btn" id="fitBtnSide">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg>
+          <span>Encuadrar</span>
+        </button>
+      </div>
+      <div class="capasRows">
       <label class="lrow"><input type="checkbox" id="lContours" checked><span>Curvas de nivel</span></label>
       <label class="lrow"><input type="checkbox" id="lWater" checked><span>Ríos y lagos</span></label>
       <label class="lrow"><input type="checkbox" id="lTowns" checked><span>Pueblos y campos base</span></label>
       <label class="lrow"><input type="checkbox" id="lBorders" checked><span>Fronteras</span></label>
       <label class="lrow"><input type="checkbox" id="lLabels" checked><span>Nombres de las cimas</span></label>
-      <button class="btn" id="fitBtnSide">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg>
-        <span>Encuadrar</span>
-      </button>
+      </div>
     </div>
     <div class="search">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="M10.6 10.6L14.5 14.5"/></svg>
@@ -237,11 +241,6 @@ body{font-family:var(--f-body);color:var(--ink);background:var(--bg);-webkit-fon
   <div id="attr" class="panel">
     <div class="me"><strong>Jon Peciña</strong></div>
   </div>
-
-  <button id="fitBtn" class="fab">
-    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg>
-    <span>Encuadrar</span>
-  </button>
 
   <aside id="sheet" class="panel" aria-label="Ficha de cima"></aside>
 
@@ -960,7 +959,6 @@ $("m3d").addEventListener("click",function(e){if(e.target===$("m3d"))close3D();}
 [["lContours","contours"],["lWater","water"],["lTowns","towns"],["lBorders","borders"],["lLabels","labels"]]
 .forEach(function(pair){$(pair[0]).addEventListener("change",function(e){layers[pair[1]]=e.target.checked;requestRender();});});
 $("q").addEventListener("input",function(e){query=e.target.value.trim().toLowerCase();renderList();});
-$("fitBtn").onclick=fitAll;
 $("fitBtnSide").onclick=fitAll;
 $("menuBtn").onclick=function(){$("side").classList.toggle("open");};
 $("sideClose").onclick=function(){$("side").classList.remove("open");};
