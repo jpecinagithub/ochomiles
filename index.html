@@ -110,7 +110,7 @@ body{font-family:var(--f-body);color:var(--ink);background:var(--bg);-webkit-fon
 #sheet .phcap{font-size:11px;color:var(--muted);padding:6px 18px 0}
 #sheet .phcap a{color:var(--water);text-decoration:none}
 #sheet .x{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);
-  background:var(--panel);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
+  background:var(--panel);color:var(--ink);cursor:pointer;display:none;align-items:center;justify-content:center;z-index:2}
 #sheet .x:hover{color:var(--accent);border-color:var(--accent)}
 #sheet .x svg{width:15px;height:15px}
 #sheet .body{overflow-y:auto;padding:14px 20px 20px;scrollbar-width:thin}
@@ -187,6 +187,7 @@ body{font-family:var(--f-body);color:var(--ink);background:var(--bg);-webkit-fon
   #sheet{left:8px;right:8px;top:auto;bottom:8px;width:auto;max-width:none;max-height:72vh;
     transform:translateY(calc(100% + 20px))}
   #sheet.open{transform:none}
+  #sheet .x{display:flex}
 }
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important}
@@ -702,7 +703,7 @@ function drawScale(){
       var s=proj(p.lon,p.lat),d=Math.hypot(s[0]-x,s[1]-y);
       if(d<bd){bd=d;best=p;}
     });
-    if(best)openSheet(best.id);else closeSheet();
+    if(best)openSheet(best.id);
   }
 })();
 window.addEventListener("resize",resize);
@@ -803,7 +804,7 @@ function openSheet(id){
   var sh=$("sheet");sh.innerHTML=h;sh.classList.add("open");
   if(window.innerWidth<=900)$("side").classList.remove("open");
   $("shX").onclick=closeSheet;
-  if(p.bc)$("shMap").onclick=function(){closeSheet();view.clon=p.bc.lon;view.clat=p.bc.lat;
+  if(p.bc)$("shMap").onclick=function(){view.clon=p.bc.lon;view.clat=p.bc.lat;
     view.scale=Math.max(view.scale,Math.min(W,H)/0.3);clampView();requestRender();};
   $("shPrev").onclick=function(){openSheet(peaks[(i-1+peaks.length)%peaks.length].id);};
   $("shNext").onclick=function(){openSheet(peaks[(i+1)%peaks.length].id);};
@@ -959,7 +960,7 @@ $("q").addEventListener("input",function(e){query=e.target.value.trim().toLowerC
 $("fitBtnSide").onclick=fitAll;
 $("menuBtn").onclick=function(){$("side").classList.toggle("open");};
 $("sideClose").onclick=function(){$("side").classList.remove("open");};
-document.addEventListener("keydown",function(e){if(e.key==="Escape"){close3D();closeSheet();}});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){close3D();}});
 
 /* ---------------- init ---------------- */
 function onPatchData(){ /* datos-picos.js (defer) ya se ha ejecutado */
