@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -15,23 +15,6 @@
 </script>
 <style>
 :root{
-  --bg:#e9ede7;
-  --panel:rgba(250,251,248,.95);
-  --panel-solid:#fafbf8;
-  --ink:#17222a;
-  --muted:#5d6d76;
-  --line:rgba(23,34,42,.13);
-  --accent:#b3261e;
-  --accent-soft:rgba(179,38,30,.10);
-  --water:#22749c;
-  --water-soft:rgba(34,116,156,.14);
-  --shadow:0 1px 2px rgba(10,20,26,.10),0 10px 30px rgba(10,20,26,.16);
-  --r:12px;
-  --f-display:"Barlow Condensed","Arial Narrow",sans-serif;
-  --f-body:"Barlow","Segoe UI",system-ui,-apple-system,sans-serif;
-  --f-serif:"Cormorant Garamond","Iowan Old Style",Georgia,serif;
-}
-html[data-theme="dark"]{
   --bg:#0b0f13;
   --panel:rgba(15,21,26,.94);
   --panel-solid:#10161b;
@@ -43,6 +26,10 @@ html[data-theme="dark"]{
   --water:#73c3ea;
   --water-soft:rgba(115,195,234,.14);
   --shadow:0 1px 2px rgba(0,0,0,.45),0 12px 34px rgba(0,0,0,.5);
+  --r:12px;
+  --f-display:"Barlow Condensed","Arial Narrow",sans-serif;
+  --f-body:"Barlow","Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-serif:"Cormorant Garamond","Iowan Old Style",Georgia,serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden}
@@ -91,19 +78,9 @@ body{font-family:var(--f-body);color:var(--ink);background:var(--bg);-webkit-fon
   position:relative;flex:none;background:transparent}
 .lrow input:checked{background:var(--accent);border-color:var(--accent)}
 .lrow input:checked::after{content:"";position:absolute;left:5px;top:1.5px;width:4px;height:8px;
-  border:solid #fff;border-width:0 2px 2px 0;transform:rotate(42deg)}
-html[data-theme="dark"] .lrow input:checked::after{border-color:#10161b}
+  border:solid #10161b;border-width:0 2px 2px 0;transform:rotate(42deg)}
 .lsep{border:0;border-top:1px solid var(--line);margin:10px 0}
 .llab{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:4px 2px 6px}
-input[type=range].sun{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:3px;
-  background:linear-gradient(90deg,#2b3a44,#c9a227,#f5f0e1);outline:none;margin:2px 0 4px}
-input[type=range].sun::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;
-  background:var(--panel-solid);border:2px solid var(--accent);cursor:pointer}
-.sunval{font-size:12px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
-.seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-top:2px}
-.seg button{flex:1;border:0;background:transparent;color:var(--muted);padding:7px 4px;font:600 12.5px var(--f-body);
-  cursor:pointer}
-.seg button.on{background:var(--ink);color:var(--panel-solid)}
 /* ---------- legend / scale / attribution ---------- */
 #legend{left:372px;bottom:14px;padding:12px 14px;max-width:280px;z-index:15}
 #legend .grad{height:10px;border-radius:5px;margin:2px 0 3px;
@@ -171,9 +148,8 @@ input[type=range].sun::-webkit-slider-thumb{-webkit-appearance:none;width:16px;h
 .btn{border:1px solid var(--line);background:var(--panel-solid);color:var(--ink);border-radius:9px;
   padding:8px 14px;font:600 13px var(--f-body);cursor:pointer;display:inline-flex;align-items:center;gap:7px}
 .btn:hover{border-color:var(--accent);color:var(--accent)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-.btn.primary:hover{filter:brightness(1.08);color:#fff}
-html[data-theme="dark"] .btn.primary{color:#10161b}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#10161b}
+.btn.primary:hover{filter:brightness(1.08);color:#10161b}
 .btn svg{width:14px;height:14px}
 .near{display:flex;flex-wrap:wrap;gap:7px}
 .near button{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;
@@ -236,7 +212,7 @@ html[data-theme="dark"] .btn.primary{color:#10161b}
 
   <button id="menuBtn" class="fab" aria-label="Abrir índice">
     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
-    <span data-i18n="panel_open">Cimas</span>
+    <span>Cimas</span>
   </button>
 
   <button id="layersBtn" class="fab" aria-label="Capas">
@@ -245,57 +221,40 @@ html[data-theme="dark"] .btn.primary{color:#10161b}
 
   <aside id="side" class="panel" aria-label="Índice de cimas">
     <button id="sideClose" aria-label="Cerrar">✕</button>
-    <div class="eyebrow" data-i18n="eyebrow">Himalaya · Karakórum</div>
-    <h1 data-i18n="title">Los 14 ochomiles</h1>
-    <div class="sub" data-i18n="subtitle">Las cimas que superan los 8000 metros</div>
+    <div class="eyebrow">Himalaya · Karakórum</div>
+    <h1>Los 14 ochomiles</h1>
+    <div class="sub">Las cimas que superan los 8000 metros</div>
     <div class="stats">
-      <div class="stat"><b id="stPeaks">–</b><span data-i18n="stat_peaks">Cimas</span></div>
-      <div class="stat"><b id="stTop">–</b><span data-i18n="stat_top">Techo</span></div>
-      <div class="stat"><b id="stCtry">–</b><span data-i18n="stat_countries">Países</span></div>
+      <div class="stat"><b id="stPeaks">–</b><span>Cimas</span></div>
+      <div class="stat"><b id="stTop">–</b><span>Techo</span></div>
+      <div class="stat"><b id="stCtry">–</b><span>Países</span></div>
     </div>
     <div class="search">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="M10.6 10.6L14.5 14.5"/></svg>
-      <input id="q" type="search" data-i18n-ph="search_ph" placeholder="Buscar cima…" autocomplete="off">
+      <input id="q" type="search" placeholder="Buscar cima…" autocomplete="off">
     </div>
     <div id="list" role="list"></div>
   </aside>
 
   <aside id="layers" class="panel" aria-label="Capas del mapa">
-    <h2 data-i18n="layers">Capas</h2>
-    <label class="lrow"><input type="checkbox" id="lContours" checked><span data-i18n="l_contours">Curvas de nivel</span></label>
-    <label class="lrow"><input type="checkbox" id="lWater" checked><span data-i18n="l_water">Ríos y lagos</span></label>
-    <label class="lrow"><input type="checkbox" id="lTowns" checked><span data-i18n="l_towns">Pueblos y campos base</span></label>
-    <label class="lrow"><input type="checkbox" id="lBorders" checked><span data-i18n="l_borders">Fronteras</span></label>
-    <label class="lrow"><input type="checkbox" id="lLabels" checked><span data-i18n="l_labels">Nombres de las cimas</span></label>
-    <hr class="lsep">
-    <div class="llab" data-i18n="l_light">Iluminación</div>
-    <label class="lrow" style="padding-bottom:0"><span data-i18n="l_sun">Acimut del sol</span></label>
-    <input type="range" class="sun" id="sunAz" min="0" max="360" step="5" value="315">
-    <div class="sunval"><span id="sunVal">315° NW</span></div>
-    <hr class="lsep">
-    <div class="llab" data-i18n="l_theme">Tema</div>
-    <div class="seg" id="themeSeg">
-      <button data-v="light" data-i18n="theme_light">Claro</button>
-      <button data-v="dark" data-i18n="theme_dark">Oscuro</button>
-      <button data-v="auto" data-i18n="theme_auto">Auto</button>
-    </div>
-    <div class="llab" style="margin-top:10px" data-i18n="l_lang">Idioma</div>
-    <div class="seg" id="langSeg">
-      <button data-v="es">ES</button>
-      <button data-v="en">EN</button>
-    </div>
+    <h2>Capas</h2>
+    <label class="lrow"><input type="checkbox" id="lContours" checked><span>Curvas de nivel</span></label>
+    <label class="lrow"><input type="checkbox" id="lWater" checked><span>Ríos y lagos</span></label>
+    <label class="lrow"><input type="checkbox" id="lTowns" checked><span>Pueblos y campos base</span></label>
+    <label class="lrow"><input type="checkbox" id="lBorders" checked><span>Fronteras</span></label>
+    <label class="lrow"><input type="checkbox" id="lLabels" checked><span>Nombres de las cimas</span></label>
   </aside>
 
   <div id="legend" class="panel">
-    <h2 data-i18n="legend">Leyenda</h2>
+    <h2>Leyenda</h2>
     <div class="grad"></div>
     <div class="ticks"><span>0</span><span>3000</span><span>6000</span><span>9000 m</span></div>
     <div class="syms">
-      <span><i><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1.5L13 12.5H1z" fill="var(--accent)"/></svg></i><em data-i18n="leg_peak">Cima +8000</em></span>
-      <span><i><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="3.4" fill="var(--ink)"/></svg></i><em data-i18n="leg_town">Pueblo</em></span>
-      <span><i><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 11L8 1l7 10z M8 1v10" fill="none" stroke="var(--water)" stroke-width="1.6"/></svg></i><em data-i18n="leg_bc">Campo base</em></span>
-      <span><i><svg width="18" height="10" viewBox="0 0 18 10"><path d="M1 5h16" stroke="var(--muted)" stroke-width="1.6" stroke-dasharray="3 2.4"/></svg></i><em data-i18n="leg_border">Frontera</em></span>
-      <span><i><svg width="18" height="10" viewBox="0 0 18 10"><path d="M1 5h16" stroke="var(--accent)" stroke-width="2.2" stroke-dasharray="3.5 2.5"/></svg></i><em data-i18n="leg_route">Vía normal</em></span>
+      <span><i><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1.5L13 12.5H1z" fill="var(--accent)"/></svg></i><em>Cima +8000</em></span>
+      <span><i><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="3.4" fill="var(--ink)"/></svg></i><em>Pueblo</em></span>
+      <span><i><svg width="16" height="12" viewBox="0 0 16 12"><path d="M1 11L8 1l7 10z M8 1v10" fill="none" stroke="var(--water)" stroke-width="1.6"/></svg></i><em>Campo base</em></span>
+      <span><i><svg width="18" height="10" viewBox="0 0 18 10"><path d="M1 5h16" stroke="var(--muted)" stroke-width="1.6" stroke-dasharray="3 2.4"/></svg></i><em>Frontera</em></span>
+      <span><i><svg width="18" height="10" viewBox="0 0 18 10"><path d="M1 5h16" stroke="var(--accent)" stroke-width="2.2" stroke-dasharray="3.5 2.5"/></svg></i><em>Vía normal</em></span>
     </div>
   </div>
 
@@ -303,12 +262,12 @@ html[data-theme="dark"] .btn.primary{color:#10161b}
 
   <div id="attr" class="panel">
     <div id="attrSrc"></div>
-    <div class="me"><span data-i18n="author_pre">Un proyecto de</span> <strong>Jon Peciña</strong></div>
+    <div class="me"><span>Un proyecto de</span> <strong>Jon Peciña</strong></div>
   </div>
 
   <button id="fitBtn" class="fab">
     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg>
-    <span data-i18n="fit">Encuadrar</span>
+    <span>Encuadrar</span>
   </button>
 
   <aside id="sheet" class="panel" aria-label="Ficha de cima"></aside>
@@ -316,13 +275,13 @@ html[data-theme="dark"] .btn.primary{color:#10161b}
   <div id="m3d"><div class="box">
     <div class="t" id="m3dTitle"></div>
     <button class="x" id="m3dX" aria-label="Cerrar"><svg viewBox="0 0 16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
-    <div class="hint" data-i18n="m3d_hint">Arrastra para orbitar · rueda para acercar</div>
-    <div class="sat" id="m3dSat" data-i18n="m3d_sat" style="display:none">Imágenes: Esri, Maxar, Earthstar Geographics</div>
+    <div class="hint">Arrastra para orbitar · rueda para acercar</div>
+    <div class="sat" id="m3dSat" style="display:none">Imágenes: Esri, Maxar, Earthstar Geographics</div>
     <div id="m3dView" style="width:100%;height:100%"></div>
   </div></div>
 
   <div id="loader"><div class="tri"></div><p>OCHOMILES</p></div>
-  <div id="fatal"><p data-i18n="fatal">No se han podido cargar los datos del mapa.</p></div>
+  <div id="fatal"><p>No se han podido cargar los datos del mapa.</p></div>
 </div>
 
 <script src="datos-base.js"></script>
@@ -368,41 +327,6 @@ function decLines(s){
 }
 /*DECODERS-END*/
 
-/* ---------------- i18n ---------------- */
-var STR={
-es:{eyebrow:"Himalaya · Karakórum",title:"Los 14 ochomiles",subtitle:"Las cimas que superan los 8000 metros",
-search_ph:"Buscar cima…",stat_peaks:"Cimas",stat_top:"Techo",stat_countries:"Países",
-layers:"Capas",l_contours:"Curvas de nivel",l_water:"Ríos y lagos",l_towns:"Pueblos y campos base",
-l_borders:"Fronteras",l_labels:"Nombres de las cimas",l_light:"Iluminación",l_sun:"Acimut del sol",l_nw:"NO",
-l_theme:"Tema",theme_light:"Claro",theme_dark:"Oscuro",theme_auto:"Auto",l_lang:"Idioma",
-fit:"Encuadrar",legend:"Leyenda",leg_peak:"Cima +8000",leg_town:"Pueblo",leg_bc:"Campo base",leg_border:"Frontera",
-panel_open:"Cimas",author_pre:"Un proyecto de",photos_by:"Fotos: Wikimedia Commons",
-fatal:"No se han podido cargar los datos del mapa.",noresults:"Sin resultados",
-s_alt:"Altitud",s_prom:"Prominencia",s_range:"Cordillera",s_country:"País",s_fa:"Primera ascensión",
-s_route:"Vía normal",s_bc:"Campo base",s_near:"Cimas cercanas",s_viewmap:"Ver en mapa",s_3d:"Ver en 3D",
-s_prev:"Anterior",s_next:"Siguiente",s_close:"Cerrar",s_routes_note:"Las vías son orientativas.",
-s_rlist:"Vías de la montaña",
-s_events:"Efemérides",leg_route:"Vía normal",
-m3d_hint:"Arrastra para orbitar · rueda para acercar",m3d_sat:"Imágenes: Esri, Maxar, Earthstar Geographics",rank_of:"n.º",unit_m:"m",unit_km:"km",ago_in:"en"},
-en:{eyebrow:"Himalaya · Karakoram",title:"The 14 eight-thousanders",subtitle:"Peaks rising above 8000 metres",
-search_ph:"Search peak…",stat_peaks:"Peaks",stat_top:"Highest",stat_countries:"Countries",
-layers:"Layers",l_contours:"Contour lines",l_water:"Rivers & lakes",l_towns:"Towns & base camps",
-l_borders:"Borders",l_labels:"Peak names",l_light:"Lighting",l_sun:"Sun azimuth",l_nw:"NW",
-l_theme:"Theme",theme_light:"Light",theme_dark:"Dark",theme_auto:"Auto",l_lang:"Language",
-fit:"Fit view",legend:"Legend",leg_peak:"8000m peak",leg_town:"Town",leg_bc:"Base camp",leg_border:"Border",
-panel_open:"Peaks",author_pre:"A project by",photos_by:"Photos: Wikimedia Commons",
-fatal:"Could not load the map data.",noresults:"No results",
-s_alt:"Elevation",s_prom:"Prominence",s_range:"Range",s_country:"Country",s_fa:"First ascent",
-s_route:"Normal route",s_bc:"Base camp",s_near:"Nearby peaks",s_viewmap:"Show on map",s_3d:"View in 3D",
-s_prev:"Previous",s_next:"Next",s_close:"Close",s_routes_note:"Routes are indicative only.",
-s_rlist:"Mountain routes",
-s_events:"Milestones",leg_route:"Normal route",
-m3d_hint:"Drag to orbit · scroll to zoom",m3d_sat:"Imagery: Esri, Maxar, Earthstar Geographics",rank_of:"no.",unit_m:"m",unit_km:"km",ago_in:"in"}};
-var lang=(function(){try{var l=localStorage.getItem("ocho_lang");if(l==="es"||l==="en")return l;}catch(e){}
-  return (navigator.language||"es").toLowerCase().indexOf("en")===0?"en":"es";})();
-function t(k){return (STR[lang]&&STR[lang][k])||STR.es[k]||k;}
-function L(obj){return (obj&&(obj[lang]||obj.es||obj.en))||"";}
-
 /* ---------------- state ---------------- */
 var OD=null;
 var grid=null, dem=null, lc=null;
@@ -410,7 +334,8 @@ var contours=[], rivers=[], lakes=[], borders=[];
 var peaks=[], zones=[], towns=[], basecamps=[], photos=[];
 var view={clon:0,clat:0,scale:100};
 var layers={contours:true,water:true,towns:true,borders:true,labels:true};
-var sunAz=315, themeMode="auto", query="";
+var query="";
+var SUN_AZ=315; /* acimut del sol, fijo */
 var openPeakId=null, reliefCache=null, patchCache={}, renderQueued=false;
 var $=function(id){return document.getElementById(id);};
 
@@ -456,12 +381,12 @@ function loadData(){
 }
 function countryCount(){
   var s={};
-  peaks.forEach(function(p){String(L(p.ctr)).split("/").forEach(function(c){
+  peaks.forEach(function(p){String(p.ctr).split("/").forEach(function(c){
     c=c.trim().replace(/\s*\(.*?\)\s*/g,"");if(c)s[c]=1;});});
   return Object.keys(s).length;
 }
-function fmtM(m){return Math.round(m).toLocaleString(lang==="es"?"es-ES":"en-US")+" "+t("unit_m");}
-function fmtAlt(a){return Number(a).toLocaleString(lang==="es"?"es-ES":"en-US",{maximumFractionDigits:2})+" "+t("unit_m");}
+function fmtM(m){return Math.round(m).toLocaleString("es-ES")+" "+"m";}
+function fmtAlt(a){return Number(a).toLocaleString("es-ES",{maximumFractionDigits:2})+" "+"m";}
 function havKm(a,b,c,d){var R=6371,r=Math.PI/180,
   s1=Math.sin((c-a)*r/2),s2=Math.sin((d-b)*r/2),
   h=s1*s1+Math.cos(a*r)*Math.cos(c*r)*s2*s2;return 2*R*Math.asin(Math.sqrt(h));}
@@ -511,7 +436,7 @@ function rampColor(z){
   var f=b[0]===a[0]?0:Math.max(0,Math.min(1,(z-a[0])/(b[0]-a[0])));
   return [a[1][0]+(b[1][0]-a[1][0])*f, a[1][1]+(b[1][1]-a[1][1])*f, a[1][2]+(b[1][2]-a[1][2])*f];
 }
-function rasterize(dm,lcArr,g,azDeg,dark){
+function rasterize(dm,lcArr,g,azDeg){
   var w=g.w,h=g.h,cnv=document.createElement("canvas");cnv.width=w;cnv.height=h;
   var cx=cnv.getContext("2d"),img=cx.createImageData(w,h),px=img.data;
   var az=azDeg*Math.PI/180,zen=45*Math.PI/180;
@@ -533,28 +458,26 @@ function rasterize(dm,lcArr,g,azDeg,dark){
       var r=c[0],gg=c[1],b=c[2];
       if(tn){r=r*0.62+tn[0]*0.38;gg=gg*0.62+tn[1]*0.38;b=b*0.62+tn[2]*0.38;}
       var sh=0.42+0.58*hs,o=idx*4;
-      px[o]=r*sh*(dark?0.52:1);px[o+1]=gg*sh*(dark?0.55:1);
-      px[o+2]=b*sh*(dark?0.6:1);px[o+3]=255;
+      px[o]=r*sh*0.52;px[o+1]=gg*sh*0.55;
+      px[o+2]=b*sh*0.6;px[o+3]=255;
     }
   }
   cx.putImageData(img,0,0);
   return cnv;
 }
 function reliefBase(){
-  if(reliefCache&&reliefCache.az===sunAz&&reliefCache.dark===isDark())return reliefCache.cnv;
-  reliefCache={az:sunAz,dark:isDark(),cnv:rasterize(dem,lc,grid,sunAz,isDark())};
+  if(reliefCache)return reliefCache.cnv;
+  reliefCache={cnv:rasterize(dem,lc,grid,SUN_AZ)};
   return reliefCache.cnv;
 }
 function reliefPatch(id){
   var pc=getPatch(id);if(!pc)return null;
-  var key=id+"|"+sunAz+"|"+(isDark()?1:0);
-  if(patchCache[key])return patchCache[key];
+  if(patchCache[id])return patchCache[id];
   var d=decInts(pc.dem);
-  var cnv=rasterize(d,null,pc,sunAz,isDark());
-  patchCache={};patchCache[key]=cnv; /* one cached patch is enough */
+  var cnv=rasterize(d,null,pc,SUN_AZ);
+  patchCache={};patchCache[id]=cnv; /* one cached patch is enough */
   return cnv;
 }
-function isDark(){return document.documentElement.dataset.theme==="dark";}
 
 /* ---------------- render ---------------- */
 function requestRender(){if(!renderQueued){renderQueued=true;requestAnimationFrame(draw);}}
@@ -583,18 +506,17 @@ function draw(){
       ctx.drawImage(cnv,q0[0],q0[1],q1[0]-q0[0],q1[1]-q0[1]);
     }
   }
-  var ink=css("--ink"),dark=isDark();
+  var ink=css("--ink");
   /* borders */
   if(layers.borders){
-    ctx.strokeStyle=dark?"rgba(233,238,241,.5)":"rgba(23,34,42,.5)";ctx.lineWidth=1.3;
+    ctx.strokeStyle="rgba(233,238,241,.5)";ctx.lineWidth=1.3;
     ctx.setLineDash([7,5]);drawLines(borders);ctx.setLineDash([]);
   }
   /* contours */
   if(layers.contours){
     contours.forEach(function(c){
       var major=(c.e%2000===0);
-      ctx.strokeStyle=dark?(major?"rgba(233,238,241,.34)":"rgba(233,238,241,.2)")
-                           :(major?"rgba(23,34,42,.36)":"rgba(23,34,42,.22)");
+      ctx.strokeStyle=(major?"rgba(233,238,241,.34)":"rgba(233,238,241,.2)");
       ctx.lineWidth=major?1.2:0.7;drawLines([c]);
     });
   }
@@ -616,11 +538,11 @@ function draw(){
     var wcol=css("--water");
     basecamps.forEach(function(bc){
       var s=proj(bc.lon,bc.lat);if(s[0]<-60||s[0]>W+60||s[1]<-30||s[1]>H+30)return;
-      ctx.strokeStyle=wcol;ctx.fillStyle=dark?"#10161b":"#fafbf8";ctx.lineWidth=1.6;
+      ctx.strokeStyle=wcol;ctx.fillStyle="#10161b";ctx.lineWidth=1.6;
       ctx.beginPath();ctx.moveTo(s[0]-7,s[1]+5);ctx.lineTo(s[0],s[1]-7);ctx.lineTo(s[0]+7,s[1]+5);
       ctx.closePath();ctx.fill();ctx.stroke();
       ctx.beginPath();ctx.moveTo(s[0],s[1]-7);ctx.lineTo(s[0],s[1]+5);ctx.stroke();
-      halo(L(bc.n),s[0]+10,s[1]+4);
+      halo(bc.n,s[0]+10,s[1]+4);
     });
   }
   /* peaks */
@@ -636,7 +558,7 @@ function draw(){
     if(sel){ctx.strokeStyle="#fff";ctx.lineWidth=1.6;ctx.stroke();}
     if(layers.labels){
       ctx.font=(sel?"700 13px":"600 12px")+" Barlow,sans-serif";
-      haloC(L(p.n),s[0],s[1]-r0-7);
+      haloC(p.n,s[0],s[1]-r0-7);
     }
   });
   /* selected peak: routes + camps */
@@ -675,7 +597,7 @@ function draw(){
     }
     (rt.camps||[]).forEach(function(cp){
       var s=proj(cp.lon,cp.lat);if(s[0]<-60||s[0]>W+60||s[1]<-30||s[1]>H+30)return;
-      ctx.fillStyle=dark?"#10161b":"#fafbf8";ctx.strokeStyle=acc;ctx.lineWidth=1.8;
+      ctx.fillStyle="#10161b";ctx.strokeStyle=acc;ctx.lineWidth=1.8;
       ctx.beginPath();ctx.arc(s[0],s[1],5,0,7);ctx.fill();ctx.stroke();
     });
     if(view.scale>800){
@@ -685,7 +607,7 @@ function draw(){
           var s=proj(cp.lon,cp.lat);
           if(s[0]<-60||s[0]>W+60||s[1]<-30||s[1]>H+30)return;
           if(!free(s[0]+9,s[1]+4))return;
-          halo(L(cp.n),s[0]+9,s[1]+4);
+          halo(cp.n,s[0]+9,s[1]+4);
         });
       }
       if(multi){
@@ -696,8 +618,8 @@ function draw(){
           var s=proj(lb.lon,lb.lat);
           if(s[0]<-80||s[0]>W+80||s[1]<-40||s[1]>H+40)return;
           if(!free(s[0],s[1]))return;
-          ctx.lineWidth=3;ctx.strokeStyle=dark?"rgba(10,14,17,.85)":"rgba(250,251,248,.9)";
-          var txt=L(it.r.name);
+          ctx.lineWidth=3;ctx.strokeStyle="rgba(10,14,17,.85)";
+          var txt=it.r.name;
           ctx.strokeText(txt,s[0],s[1]);ctx.fillStyle=it.r.color||acc;ctx.fillText(txt,s[0],s[1]);
         });
         /* hitos (corredores, gendarmes, muros...) */
@@ -709,7 +631,7 @@ function draw(){
             ctx.fillStyle=it.r.color||acc;
             ctx.beginPath();ctx.arc(s[0],s[1],3,0,7);ctx.fill();
             if(!free(s[0]+8,s[1]+3))return;
-            halo(L(mk.n),s[0]+8,s[1]+3);
+            halo(mk.n,s[0]+8,s[1]+3);
           });
         });
       }
@@ -743,11 +665,11 @@ function fillLines(g,color){
   ctx.strokeStyle=color;ctx.lineWidth=1.2;ctx.stroke();
 }
 function halo(txt,x,y){
-  ctx.lineWidth=3;ctx.strokeStyle=isDark()?"rgba(10,14,17,.85)":"rgba(250,251,248,.9)";
+  ctx.lineWidth=3;ctx.strokeStyle="rgba(10,14,17,.85)";
   ctx.strokeText(txt,x,y);ctx.fillStyle=css("--ink");ctx.fillText(txt,x,y);
 }
 function haloC(txt,x,y){
-  ctx.lineWidth=3.5;ctx.strokeStyle=isDark()?"rgba(10,14,17,.9)":"rgba(250,251,248,.92)";
+  ctx.lineWidth=3.5;ctx.strokeStyle="rgba(10,14,17,.9)";
   ctx.strokeText(txt,x,y);ctx.fillStyle=css("--ink");ctx.fillText(txt,x,y);
 }
 /* scale bar */
@@ -757,7 +679,7 @@ function drawScale(){
   var nice=[1,2,5,10].map(function(m){return m*pw;}).filter(function(v){return v<=target*1.6;});
   var val=nice.length?nice[nice.length-1]:pw,pxLen=val/mPerPx;
   $("sbBar").style.width=Math.round(pxLen)+"px";
-  $("sbTxt").textContent=val>=1000?(val/1000)+" "+t("unit_km"):Math.round(val)+" "+t("unit_m");
+  $("sbTxt").textContent=val>=1000?(val/1000)+" "+"km":Math.round(val)+" "+"m";
 }
 
 /* ---------------- interaction ---------------- */
@@ -817,10 +739,10 @@ function drawScale(){
 window.addEventListener("resize",resize);
 
 /* ---------------- left panel: stats, chips, list ---------------- */
-function zoneName(id){var z=zones.filter(function(z){return z.id===id;})[0];return z?L(z.n):id;}
+function zoneName(id){var z=zones.filter(function(z){return z.id===id;})[0];return z?z.n:id;}
 function filteredPeaks(){
   return peaks.filter(function(p){
-    if(query){var hay=(L(p.n)+" "+(p.aka||[]).join(" ")).toLowerCase();
+    if(query){var hay=(p.n+" "+(p.aka||[]).join(" ")).toLowerCase();
       if(hay.indexOf(query)<0)return false;}
     return true;
   });
@@ -828,14 +750,14 @@ function filteredPeaks(){
 function renderList(){
   var box=$("list");box.innerHTML="";
   var ps=filteredPeaks();
-  if(!ps.length){var d=document.createElement("div");d.className="empty";d.textContent=t("noresults");box.appendChild(d);return;}
+  if(!ps.length){var d=document.createElement("div");d.className="empty";d.textContent="Sin resultados";box.appendChild(d);return;}
   ps.forEach(function(p){
     var i=peaks.indexOf(p);
     var b=document.createElement("button");
     b.className="prow"+(p.id===openPeakId?" on":"");b.setAttribute("role","listitem");
     var rk=document.createElement("span");rk.className="rk";rk.textContent=(i+1);
     var mid=document.createElement("span");
-    var nm=document.createElement("div");nm.className="nm";nm.textContent=L(p.n);
+    var nm=document.createElement("div");nm.className="nm";nm.textContent=p.n;
     var zn=document.createElement("div");zn.className="zn";zn.textContent=zoneName(p.zone);
     mid.appendChild(nm);mid.appendChild(zn);
     var al=document.createElement("span");al.className="al";al.textContent=fmtM(p.a);
@@ -864,9 +786,9 @@ function nearby(p){
 }
 function photoHtml(p){
   var ph=(p.photo!=null&&photos[p.photo])?photos[p.photo]:null;
-  if(!ph)return '<div class="mono"><span>'+esc(L(p.n).charAt(0).toUpperCase())+'</span></div>';
+  if(!ph)return '<div class="mono"><span>'+esc(p.n.charAt(0).toUpperCase())+'</span></div>';
   var cap="© "+esc(ph.by||"")+" · "+esc(ph.lic||"");
-  return '<img class="ph" src="'+esc(ph.t||ph.u)+'" alt="'+esc(L(p.n))+'" loading="lazy">'+
+  return '<img class="ph" src="'+esc(ph.t||ph.u)+'" alt="'+esc(p.n)+'" loading="lazy">'+
     '<div class="phcap">'+(ph.src?'<a href="'+esc(ph.src)+'" target="_blank" rel="noopener">'+cap+'</a>':cap)+'</div>';
 }
 function openSheet(id){
@@ -874,40 +796,40 @@ function openSheet(id){
   openPeakId=id;
   var i=peaks.indexOf(p),nr=nearby(p),patch=getPatch(id),rt=getRoute(id);
   var evs=rt?(rt.events||[]):[];
-  var fa=p.fa?('<b>'+p.fa.y+'</b> — '+esc(L(p.fa.by))):"–";
+  var fa=p.fa?('<b>'+p.fa.y+'</b> — '+esc(p.fa.by)):"–";
   var h='<div class="shead">'+photoHtml(p)+
-    '<button class="x" id="shX" aria-label="'+esc(t("s_close"))+'"><svg viewBox="0 0 16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"><path d="M3 3l10 10M13 3L3 13"/></svg></button></div>'+
+    '<button class="x" id="shX" aria-label="'+esc("Cerrar")+'"><svg viewBox="0 0 16 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"><path d="M3 3l10 10M13 3L3 13"/></svg></button></div>'+
     '<div class="body">'+
-    '<div class="rankline">'+esc(t("rank_of"))+' '+(i+1)+' · '+esc(zoneName(p.zone))+'</div>'+
-    '<h2>'+esc(L(p.n))+'</h2>'+
+    '<div class="rankline">'+esc("n.º")+' '+(i+1)+' · '+esc(zoneName(p.zone))+'</div>'+
+    '<h2>'+esc(p.n)+'</h2>'+
     (p.aka&&p.aka.length?'<div class="aka">'+esc(p.aka.join(" · "))+'</div>':"")+
     '<div class="facts">'+
-    '<div class="fact"><small>'+esc(t("s_alt"))+'</small><b>'+esc(fmtAlt(p.a))+'</b></div>'+
-    '<div class="fact"><small>'+esc(t("s_prom"))+'</small><b>'+esc(fmtM(p.prom||0))+'</b></div>'+
-    '<div class="fact"><small>'+esc(t("s_range"))+'</small><b>'+esc(L(p.rng))+'</b></div>'+
-    '<div class="fact"><small>'+esc(t("s_country"))+'</small><b>'+esc(L(p.ctr))+'</b></div>'+
-    '<div class="fact wide"><small>'+esc(t("s_fa"))+'</small><b>'+fa+'</b></div>'+
+    '<div class="fact"><small>'+esc("Altitud")+'</small><b>'+esc(fmtAlt(p.a))+'</b></div>'+
+    '<div class="fact"><small>'+esc("Prominencia")+'</small><b>'+esc(fmtM(p.prom||0))+'</b></div>'+
+    '<div class="fact"><small>'+esc("Cordillera")+'</small><b>'+esc(p.rng)+'</b></div>'+
+    '<div class="fact"><small>'+esc("País")+'</small><b>'+esc(p.ctr)+'</b></div>'+
+    '<div class="fact wide"><small>'+esc("Primera ascensión")+'</small><b>'+fa+'</b></div>'+
     '</div>'+
-    '<div class="sect">'+esc(t("s_route"))+'</div><p class="route">'+esc(L(p.route))+'</p>'+
-    (rt&&rt.routes&&rt.routes.length?'<div class="sect">'+esc(t("s_rlist"))+'</div><ul class="rtes">'+
+    '<div class="sect">'+esc("Vía normal")+'</div><p class="route">'+esc(p.route)+'</p>'+
+    (rt&&rt.routes&&rt.routes.length?'<div class="sect">'+esc("Vías de la montaña")+'</div><ul class="rtes">'+
       rt.routes.map(function(r){
-        return '<li><div class="rh"><i style="background:'+esc(r.color||"#999")+'"></i><b>'+r.y+'</b><span>'+esc(L(r.name))+'</span></div>'+
-          '<p>'+esc(L(r.desc))+'</p></li>';
+        return '<li><div class="rh"><i style="background:'+esc(r.color||"#999")+'"></i><b>'+r.y+'</b><span>'+esc(r.name)+'</span></div>'+
+          '<p>'+esc(r.desc)+'</p></li>';
       }).join("")+'</ul>':"")+
-    (evs.length?'<div class="sect">'+esc(t("s_events"))+'</div><ul class="evs">'+
-      evs.map(function(e){return '<li>'+(e.y?'<b>'+e.y+'</b> · ':"")+esc(L(e.t))+'</li>';}).join("")+
+    (evs.length?'<div class="sect">'+esc("Efemérides")+'</div><ul class="evs">'+
+      evs.map(function(e){return '<li>'+(e.y?'<b>'+e.y+'</b> · ':"")+esc(e.t)+'</li>';}).join("")+
       '</ul>':"")+
-    (p.bc?'<div class="sect">'+esc(t("s_bc"))+'</div><div class="bcrow"><span>'+esc(L(p.bc.n))+'</span>'+
-      '<button class="btn" id="shMap"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 14s5-4.6 5-8.2A5 5 0 003 5.8C3 9.4 8 14 8 14z"/><circle cx="8" cy="6" r="1.8"/></svg>'+esc(t("s_viewmap"))+'</button></div>':"")+
-    (nr.length?'<div class="sect">'+esc(t("s_near"))+'</div><div class="near">'+
-      nr.map(function(x){return '<button data-nr="'+x.p.id+'">'+esc(L(x.p.n))+' <small>'+Math.round(x.d)+' km</small></button>';}).join("")+
+    (p.bc?'<div class="sect">'+esc("Campo base")+'</div><div class="bcrow"><span>'+esc(p.bc.n)+'</span>'+
+      '<button class="btn" id="shMap"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 14s5-4.6 5-8.2A5 5 0 003 5.8C3 9.4 8 14 8 14z"/><circle cx="8" cy="6" r="1.8"/></svg>'+esc("Ver en mapa")+'</button></div>':"")+
+    (nr.length?'<div class="sect">'+esc("Cimas cercanas")+'</div><div class="near">'+
+      nr.map(function(x){return '<button data-nr="'+x.p.id+'">'+esc(x.p.n)+' <small>'+Math.round(x.d)+' km</small></button>';}).join("")+
       '</div>':"")+
     '<div class="snav">'+
-    '<button class="btn" id="shPrev">‹ '+esc(t("s_prev"))+'</button>'+
-    '<button class="btn" id="shNext">'+esc(t("s_next"))+' ›</button>'+
-    (patch?'<button class="btn primary" id="sh3d"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1.8l6 10.2H2z"/><path d="M8 1.8v12"/></svg>'+esc(t("s_3d"))+'</button>':"")+
+    '<button class="btn" id="shPrev">‹ '+esc("Anterior")+'</button>'+
+    '<button class="btn" id="shNext">'+esc("Siguiente")+' ›</button>'+
+    (patch?'<button class="btn primary" id="sh3d"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1.8l6 10.2H2z"/><path d="M8 1.8v12"/></svg>'+esc("Ver en 3D")+'</button>':"")+
     '</div>'+
-    '<p class="snote">'+esc(t("s_routes_note"))+'</p>'+
+    '<p class="snote">'+esc("Las vías son orientativas.")+'</p>'+
     '</div>';
   var sh=$("sheet");sh.innerHTML=h;sh.classList.add("open");
   if(window.innerWidth<=900)$("side").classList.remove("open");
@@ -934,7 +856,7 @@ function close3D(){
 }
 function open3D(p){
   var pc=getPatch(p.id);if(!pc)return;
-  $("m3dTitle").textContent=L(p.n)+" — 3D";
+  $("m3dTitle").textContent=p.n+" — 3D";
   $("m3d").classList.add("open");
   var wrap=$("m3dView");wrap.innerHTML="";
   var W3=wrap.clientWidth||800,H3=wrap.clientHeight||560;
@@ -975,21 +897,20 @@ function open3D(p){
     (function(){
       var cv=document.createElement("canvas");cv.width=4;cv.height=256;
       var g=cv.getContext("2d"),gr=g.createLinearGradient(0,0,0,256);
-      if(isDark()){gr.addColorStop(0,"#04070c");gr.addColorStop(0.55,"#0a1220");gr.addColorStop(1,"#0d141c");}
-      else{gr.addColorStop(0,"#6ea8dd");gr.addColorStop(0.55,"#bcd4e8");gr.addColorStop(1,"#e9ede7");}
+      gr.addColorStop(0,"#04070c");gr.addColorStop(0.55,"#0a1220");gr.addColorStop(1,"#0d141c");
       g.fillStyle=gr;g.fillRect(0,0,4,256);
       var bg=new THREE.CanvasTexture(cv);bg.colorSpace=THREE.SRGBColorSpace;
       scene3d.background=bg;
     })();
     /* niebla sutil para dar profundidad */
-    scene3d.fog=new THREE.Fog(isDark()?0x0d141c:0xe9ede7,ext*1.4,ext*4);
+    scene3d.fog=new THREE.Fog(0x0d141c,ext*1.4,ext*4);
     cam3d=new THREE.PerspectiveCamera(48,W3/H3,0.01,ext*8);
     cam3d.position.set(ext*0.42,(zmax-zmin)/1000*ex+ext*0.42,ext*0.75);
     var ctl=new OrbitControls(cam3d,renderer3d.domElement);
     ctl.target.set(0,(zmax-zmin)/1000*ex*0.4,0);ctl.enableDamping=true;ctl.dampingFactor=0.08;
     scene3d.add(new THREE.AmbientLight(0xffffff,0.62));
     var sun=new THREE.DirectionalLight(0xfff2dd,1.5);
-    var azr=sunAz*Math.PI/180;sun.position.set(Math.sin(azr),1.1,Math.cos(azr)).multiplyScalar(ext*2);
+    var azr=SUN_AZ*Math.PI/180;sun.position.set(Math.sin(azr),1.1,Math.cos(azr)).multiplyScalar(ext*2);
     /* sombras reales sobre el relieve */
     sun.castShadow=true;
     sun.shadow.mapSize.set(2048,2048);
@@ -1014,7 +935,7 @@ function open3D(p){
         $("m3dSat").style.display="block";
       },undefined,function(){});
     /* vías (sin campamentos en 3D: ya están en el plano) */
-    var rt=getRoute(p.id),dark3=isDark(),acc3=dark3?0xff6b5e:0xb3261e;
+    var rt=getRoute(p.id),acc3=0xff6b5e;
     function demAt(lon,lat){
       var fx=(lon-pc.lon0)/(pc.lon1-pc.lon0)*(w-1),fy=(pc.lat1-lat)/(pc.lat1-pc.lat0)*(h-1);
       fx=Math.max(0,Math.min(w-1.001,fx));fy=Math.max(0,Math.min(h-1.001,fy));
@@ -1062,47 +983,15 @@ function open3D(p){
 $("m3dX").onclick=close3D;
 $("m3d").addEventListener("click",function(e){if(e.target===$("m3d"))close3D();});
 
-/* ---------------- layers / theme / lang wiring ---------------- */
-function applyI18n(){
-  document.documentElement.lang=lang;
-  document.querySelectorAll("[data-i18n]").forEach(function(el){el.textContent=t(el.getAttribute("data-i18n"));});
-  document.querySelectorAll("[data-i18n-ph]").forEach(function(el){el.placeholder=t(el.getAttribute("data-i18n-ph"));});
-  $("attrSrc").textContent=(OD?OD.meta.sources.join(" · "):"")+" · "+t("photos_by");
-  renderList();renderStats();
-  if(openPeakId)openSheet(openPeakId);
-  drawScale();requestRender();
-}
-function setLang(l){lang=l;try{localStorage.setItem("ocho_lang",l);}catch(e){}
-  document.querySelectorAll("#langSeg button").forEach(function(b){b.classList.toggle("on",b.dataset.v===l);});
-  applyI18n();}
-function applyTheme(){
-  var dark=themeMode==="dark"||(themeMode==="auto"&&window.matchMedia("(prefers-color-scheme: dark)").matches);
-  document.documentElement.dataset.theme=dark?"dark":"light";
-  document.querySelectorAll("#themeSeg button").forEach(function(b){b.classList.toggle("on",b.dataset.v===themeMode);});
-  reliefCache=null;requestRender();
-}
-function setTheme(m){themeMode=m;try{localStorage.setItem("ocho_theme",m);}catch(e){}applyTheme();}
+/* ---------------- layers wiring ---------------- */
 [["lContours","contours"],["lWater","water"],["lTowns","towns"],["lBorders","borders"],["lLabels","labels"]]
 .forEach(function(pair){$(pair[0]).addEventListener("change",function(e){layers[pair[1]]=e.target.checked;requestRender();});});
-var sunT=null;
-function sunLabel(){var dirs=["N","NE","E","SE","S","SW","W","NW"];
-  return sunAz+"° "+dirs[Math.round(sunAz/45)%8];}
-function paintSun(){$("sunVal").textContent=sunLabel();}
-$("sunAz").addEventListener("input",function(e){
-  sunAz=+e.target.value;paintSun();
-  if(sunT)clearTimeout(sunT);
-  sunT=setTimeout(function(){reliefCache=null;patchCache={};requestRender();},120);
-});
-$("sunAz").addEventListener("change",function(){if(sunT){clearTimeout(sunT);sunT=null;}reliefCache=null;patchCache={};requestRender();});
 $("q").addEventListener("input",function(e){query=e.target.value.trim().toLowerCase();renderList();});
 $("fitBtn").onclick=fitAll;
 $("menuBtn").onclick=function(){$("side").classList.toggle("open");};
 $("sideClose").onclick=function(){$("side").classList.remove("open");};
 $("layersBtn").onclick=function(){$("layers").classList.toggle("open");};
-document.querySelectorAll("#themeSeg button").forEach(function(b){b.onclick=function(){setTheme(b.dataset.v);};});
-document.querySelectorAll("#langSeg button").forEach(function(b){b.onclick=function(){setLang(b.dataset.v);};});
 document.addEventListener("keydown",function(e){if(e.key==="Escape"){close3D();closeSheet();}});
-window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(){if(themeMode==="auto")applyTheme();});
 
 /* ---------------- init ---------------- */
 function onPatchData(){ /* datos-picos.js (defer) ya se ha ejecutado */
@@ -1117,10 +1006,9 @@ function onRoutesData(){ /* datos-rutas.js (defer) ya se ha ejecutado */
 }
 function init(){
   if(!loadData())return;
-  try{var tm=localStorage.getItem("ocho_theme");if(tm==="light"||tm==="dark"||tm==="auto")themeMode=tm;}catch(e){}
-  setLang(lang);applyTheme();
-  resize();fitAll();
-  document.querySelectorAll("#langSeg button").forEach(function(b){b.classList.toggle("on",b.dataset.v===lang);});
+  $("attrSrc").textContent=OD.meta.sources.join(" · ")+" · Fotos: Wikimedia Commons";
+  renderList();renderStats();drawScale();
+  resize();fitAll();requestRender();
   $("loader").classList.add("done");
 }
 document.addEventListener("DOMContentLoaded",function(){
